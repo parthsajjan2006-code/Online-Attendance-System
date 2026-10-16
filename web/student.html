@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Online SAMS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">🎓</div>
+        <div>
+          <div class="sidebar-brand-name">Online SAMS</div>
+          <div class="sidebar-brand-role">Student Portal</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-tab="overview">
+          <span class="nav-icon">📊</span>
+          <span>Attendance Overview</span>
+        </a>
+        <a class="nav-item" data-tab="history">
+          <span class="nav-icon">📅</span>
+          <span>Attendance History</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar" id="studentAvatar">ST</div>
+          <div class="user-meta">
+            <div class="user-meta-name" id="studentName">Student</div>
+            <div class="user-meta-role" id="studentCourseSem">B.Sc CS • Sem 1</div>
+          </div>
+          <button class="btn-logout-icon" onclick="clearSession()" title="Logout">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <main class="main-viewport">
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <h2 class="top-page-title" id="pageTitle">My Attendance Dashboard</h2>
+        <div class="top-navbar-actions">
+          <div class="live-datetime" id="liveClock">Loading...</div>
+          <button class="btn btn-sm btn-outline" onclick="openModal('modalChangePassword')">🔑 Change Password</button>
+          <button class="btn btn-sm btn-danger" onclick="clearSession()">Logout</button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-container">
+
+        <!-- ================= TAB: OVERVIEW ================= -->
+        <section class="tab-panel active" id="tab-overview">
+          <!-- Student Banner -->
+          <div class="student-banner">
+            <div>
+              <h1 id="welcomeGreeting">Welcome back!</h1>
+              <p id="studentInfoSubtext">Roll ID: #1 • B.Sc CS • Semester 5</p>
+            </div>
+            <div class="student-overall-gauge">
+              <div class="overall-pct-number" id="overallPct">0%</div>
+              <div class="overall-pct-label">Overall Attendance</div>
+            </div>
+          </div>
+
+          <!-- Shortage Warning Banner (Hidden by default) -->
+          <div class="alert-shortage" id="shortageAlert" style="display: none;">
+            <span style="font-size: 1.5rem;">⚠️</span>
+            <div>
+              <strong>Low Attendance Notice:</strong>
+              <div>Your overall attendance is below the mandatory <strong>75%</strong> requirement. Regular class attendance is required to remain eligible for examinations.</div>
+            </div>
+          </div>
+
+          <!-- Quick Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div>
+                <div class="stat-label">Total Classes Held</div>
+                <div class="stat-value" id="statTotalHeld">0</div>
+                <div class="stat-subtext">Across all subjects</div>
+              </div>
+              <div class="stat-icon stat-icon-blue">📚</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-label">Classes Attended</div>
+                <div class="stat-value" id="statAttended" style="color: var(--success);">0</div>
+                <div class="stat-subtext">Marked Present</div>
+              </div>
+              <div class="stat-icon stat-icon-green">✓</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-label">Classes Missed</div>
+                <div class="stat-value" id="statMissed" style="color: var(--danger);">0</div>
+                <div class="stat-subtext">Marked Absent</div>
+              </div>
+              <div class="stat-icon stat-icon-red">✕</div>
+            </div>
+
+            <div class="stat-card">
+              <div>
+                <div class="stat-label">Eligibility Status</div>
+                <div class="stat-value" id="statEligibility" style="font-size: 1.4rem;">Checking...</div>
+                <div class="stat-subtext">75% threshold criteria</div>
+              </div>
+              <div class="stat-icon stat-icon-amber">🎓</div>
+            </div>
+          </div>
+
+          <!-- Subject Breakdown Grid -->
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 16px;">Subject-wise Breakdown & Target Calculator</h3>
+            <div class="subject-cards-grid" id="subjectCardsContainer">
+              <div style="text-align: center; padding: 40px; color: var(--gray-400);">Loading subject attendance...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB: HISTORY ================= -->
+        <section class="tab-panel" id="tab-history">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">My Daily Attendance Logs</h3>
+              <div class="toolbar">
+                <select id="historySubjectFilter" class="form-select" style="width: auto;">
+                  <option value="">All Subjects</option>
+                </select>
+                <button class="btn btn-secondary" onclick="loadHistoryLogs()">Filter</button>
+              </div>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Subject</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="historyTableBody">
+                    <tr><td colspan="3" style="text-align: center;">Loading attendance logs...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal-overlay" id="modalChangePassword">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Change Password</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="formChangePassword">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">New Password *</label>
+            <input type="password" id="newPasswordInput" class="form-control" required placeholder="Enter new password">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm New Password *</label>
+            <input type="password" id="confirmPasswordInput" class="form-control" required placeholder="Confirm new password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

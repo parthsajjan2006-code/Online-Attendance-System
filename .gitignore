@@ -1,0 +1,8 @@
+bin/
+*.class
+sources.txt
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
