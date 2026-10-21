@@ -34,7 +34,21 @@ A full-stack, modern, responsive web application for managing student attendance
 
 ---
 
-## 🚀 Quick Start Guide
+## ☁️ Deploy on Vercel (1-Click Cloud Deployment)
+
+This project is pre-configured with `vercel.json` and a built-in serverless API router in `api/index.js`, making it ready to deploy on **Vercel** directly from GitHub:
+
+1. Go to **[vercel.com](https://vercel.com)** and sign in with your GitHub account (`parthsajjan2006-code`).
+2. Click **"Add New..."** → **"Project"**.
+3. Locate **`Online-Attendance-System`** from your repository list and click **"Import"**.
+4. Leave all default settings unchanged (the included `vercel.json` automatically configures routes, static pages, and serverless functions).
+5. Click **"Deploy"**!
+
+Within seconds, Vercel will build and provide a live public URL (e.g. `https://online-attendance-system.vercel.app`) where the entire application, portals, and reports work live on the web!
+
+---
+
+## 🚀 Quick Start Guide (Local Java + MySQL)
 
 ### Prerequisites
 1. **Java JDK 21+** (`java` and `javac` installed)
